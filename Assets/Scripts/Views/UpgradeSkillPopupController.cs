@@ -20,9 +20,13 @@ namespace Assets.Scripts.Views
             _skillTreeModel = skillTreeModel;
 
             _player.onPointsUpdate += OnUpdateScore;
-            _skillTreeModel.onSkillLearn += skillPopup.OnSkillLearn;
+
+            _skillTreeModel.onSkillLearn += OnSkillLearn;
+            _skillTreeModel.onSkillForget += ForgetSkill;
+
             _skillPopup.onEarnPointClick += AddPoints;
-            _skillPopup.onSkillLearnClick += OnLearnSkill;
+            _skillPopup.onSkillLearnClick += OnLearnSkillClick;
+            _skillPopup.onSkillForgetClick += OnForgetSkillClick;
 
             skillPopup.Init(viewData);
         }
@@ -30,7 +34,13 @@ namespace Assets.Scripts.Views
         public void Dispose()
         {
             _player.onPointsUpdate -= OnUpdateScore;
+
+            _skillTreeModel.onSkillLearn -= OnSkillLearn;
+            _skillTreeModel.onSkillForget -= ForgetSkill;
+
             _skillPopup.onEarnPointClick -= AddPoints;
+            _skillPopup.onSkillLearnClick -= OnLearnSkillClick;
+            _skillPopup.onSkillForgetClick -= OnForgetSkillClick;
         }
 
         private void OnUpdateScore(int skillPoints)
@@ -38,7 +48,22 @@ namespace Assets.Scripts.Views
             _skillPopup.UpdateScoreText(skillPoints.ToString());
         }
 
-        private void OnLearnSkill(string id)
+        private void ForgetSkill(string id)
+        {
+            _skillPopup.OnSkillForget(id);
+        }
+
+        private void OnForgetSkillClick(string id)
+        {
+            _skillTreeModel.ForgetSkill(id);
+        }
+
+        private void OnSkillLearn(string id)
+        {
+            _skillPopup.OnSkillLearn(id);
+        }
+
+        private void OnLearnSkillClick(string id)
         {
             _skillTreeModel.LearnSkill(id);
         }

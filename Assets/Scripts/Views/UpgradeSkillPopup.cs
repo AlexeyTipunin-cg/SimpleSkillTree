@@ -10,6 +10,7 @@ namespace Assets.Scripts.Views
     {
         public event Action onEarnPointClick;
         public event Action<string> onSkillLearnClick;
+        public event Action<string> onSkillForgetClick;
 
         [SerializeField] private TMP_Text _scoreText;
         [SerializeField] private TMP_Text _skillCostText;
@@ -31,6 +32,7 @@ namespace Assets.Scripts.Views
         {
             _earnPointBtn.onClick.AddListener(OnEarnPointClick);
             _learnSkillBtn.onClick.AddListener(OnLearnSkillClick);
+            _forgetSkillBtn.onClick.AddListener(OnSkillForgetClick);
 
             foreach (var data in viewData)
             {
@@ -58,6 +60,11 @@ namespace Assets.Scripts.Views
             _selectedSkill.Activate();
         }
 
+        public void OnSkillForget(string id)
+        {
+            _selectedSkill.Forget();
+        }
+
         private void OnEarnPointClick()
         {
             onEarnPointClick?.Invoke();
@@ -66,6 +73,11 @@ namespace Assets.Scripts.Views
         private void OnLearnSkillClick()
         {
             onSkillLearnClick?.Invoke(_selectedId);
+        }
+
+        private void OnSkillForgetClick()
+        {
+            onSkillForgetClick?.Invoke(_selectedId);
         }
 
         private void OnSkillSelect(SkillItemView view, string id)

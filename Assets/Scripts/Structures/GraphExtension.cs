@@ -105,6 +105,28 @@ namespace Assets.Scripts.Structures
             return false;
         }
 
+        public static bool hasLeaf<T>(this Graph<T> graph, T target, T root, Func<T, bool> filterCondition, Func<T, bool> condition)
+        {
+            LinkedList<GraphNode<T>> searchList = new LinkedList<GraphNode<T>>();
+            var startNode = graph.Find(target);
+            var rootNode = graph.Find(root);
+            foreach (var n in startNode.Neighbors)
+            {
+                if (!filterCondition(n.Value))
+                {
+                    continue;
+                }
+
+                bool hasPath = graph.HasPath(n.Value, root, condition);
+                if (!hasPath)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         private static string ConvertPathToString<T>(GraphNode<T> endNode, Dictionary<GraphNode<T>, PathNodeInfo<T>> pathNodes)
         {
             LinkedList<GraphNode<T>> path = new LinkedList<GraphNode<T>>();

@@ -7,6 +7,7 @@ namespace Assets.Scripts.Tree
     public class SkillTreeModel
     {
         public event Action<string> onSkillLearn;
+        public event Action<string> onSkillForget;
         private readonly Dictionary<string, SkillModel> _modelsStorage = new Dictionary<string, SkillModel>();
         private Graph<SkillModel> _skillGraph = new Graph<SkillModel>();
 
@@ -34,6 +35,18 @@ namespace Assets.Scripts.Tree
             {
                 _modelsStorage[id].LearnSkill();
                 onSkillLearn?.Invoke(id);
+            }
+        }
+
+        public void ForgetSkill(string id)
+        {
+            if (_modelsStorage.TryGetValue(id, out var model))
+            {
+                if (model.isOpened && !_skillGraph.hasLeaf(model, _modelsStorage["База"], m => m.isOpened, m => { return m.isOpened && m != model; }))
+                {
+                    _modelsStorage[id].ForgetSkill();
+                    onSkillForget?.Invoke(id);
+                }
             }
         }
 
