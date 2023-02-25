@@ -72,7 +72,7 @@ namespace Assets.Scripts.Views
 
         public void OnSkillLearn(string id)
         {
-            _selectedSkill.Activate();
+            _idsToView[id].Activate();
         }
 
         public void OnSkillForget(string id)
@@ -98,20 +98,6 @@ namespace Assets.Scripts.Views
         private void OnForgetAllClick()
         {
             onForgetAllClick?.Invoke();
-        }
-
-        private void OnForgetAll(List<SkillItemViewData> viewData)
-        {
-            foreach (var data in viewData)
-            {
-                var view = _skillItemView[data.index];
-                view.UpdateData(data);
-
-                if (data.activated)
-                {
-                    view.Activate();
-                }
-            }
         }
 
         private void OnSkillSelect(SkillItemView view, SkillItemViewData data)
