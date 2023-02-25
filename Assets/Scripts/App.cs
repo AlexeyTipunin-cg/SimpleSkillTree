@@ -30,7 +30,7 @@ namespace Assets.Scripts
 
 
 
-        private SkillTree _skillTree;
+        private SkillTreeModel _skillTree;
 
 
         private void Start()
@@ -46,8 +46,9 @@ namespace Assets.Scripts
                 });
             }
 
-            var skillPopup = new UpgradeSkillPopupController(player, _upgradeSkillPopup, _viewData);
-            _skillTree = new SkillTree(skills);
+            _skillTree = new SkillTreeModel(skills);
+            var skillPopup = new UpgradeSkillPopupController(player, _upgradeSkillPopup, _skillTree, _viewData);
+
         }
     }
 }

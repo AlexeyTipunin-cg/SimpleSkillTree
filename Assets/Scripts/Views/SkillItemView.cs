@@ -8,7 +8,7 @@ namespace Assets.Scripts.Views
 {
     public class SkillItemView : MonoBehaviour, IPointerDownHandler
     {
-        public event Action<SkillItemView> onSelect;
+        public event Action<SkillItemView, string> onSelect;
         [SerializeField] private Image _skillBack;
         [SerializeField] private TMP_Text _skillName;
         private string _id;
@@ -29,10 +29,15 @@ namespace Assets.Scripts.Views
             _skillBack.color = Color.cyan;
         }
 
+        public void Activate()
+        {
+            _skillBack.color = Color.green;
+        }
+
         public void OnPointerDown(PointerEventData eventData)
         {
             Select();
-            onSelect?.Invoke(this);
+            onSelect?.Invoke(this, _id);
         }
     }
 }

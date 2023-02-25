@@ -1,14 +1,16 @@
+using System;
 using System.Collections.Generic;
 using Assets.Scripts.Structures;
 
 namespace Assets.Scripts.Tree
 {
-    public class SkillTree
+    public class SkillTreeModel
     {
+        public event Action<string> onSkillLearn;
         private readonly Dictionary<string, SkillModel> _modelsStorage = new Dictionary<string, SkillModel>();
         private Graph<SkillModel> _skillGraph = new Graph<SkillModel>();
 
-        public SkillTree(List<SkillModel> skillModels)
+        public SkillTreeModel(List<SkillModel> skillModels)
         {
             foreach (var skillModel in skillModels)
             {
@@ -25,7 +27,17 @@ namespace Assets.Scripts.Tree
             }
         }
 
-        
+        public void LearnSkill(string id)
+        {
+            bool canLearn = _skillGraph.HasPath(_modelsStorage[id], _modelsStorage["База"], model => model.isOpened);
+            if (canLearn)
+            {
+                _modelsStorage[id].LearnSkill();
+                onSkillLearn?.Invoke(id);
+            }
+        }
+
+
     }
 }
 

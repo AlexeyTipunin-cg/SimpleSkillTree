@@ -9,6 +9,7 @@ namespace Assets.Scripts.Views
     public class UpgradeSkillPopup : MonoBehaviour
     {
         public event Action onEarnPointClick;
+        public event Action<string> onSkillLearnClick;
 
         [SerializeField] private TMP_Text _scoreText;
         [SerializeField] private TMP_Text _skillCostText;
@@ -22,6 +23,9 @@ namespace Assets.Scripts.Views
         [SerializeField] private SkillItemView[] _skillItemView;
 
         private SkillItemView _selectedSkill;
+        private string _selectedId;
+
+        private Dictionary<ViewData, SkillItemView> skillItemView = new Dictionary<ViewData, SkillItemView>();
 
         public void Init(List<ViewData> viewData)
         {
@@ -49,6 +53,11 @@ namespace Assets.Scripts.Views
             _skillCostText.text = skillCost;
         }
 
+        public void OnSkillLearn(string id)
+        {
+            _selectedSkill.Activate();
+        }
+
         private void OnEarnPointClick()
         {
             onEarnPointClick?.Invoke();
@@ -56,14 +65,15 @@ namespace Assets.Scripts.Views
 
         private void OnLearnSkillClick()
         {
-
+            onSkillLearnClick?.Invoke(_selectedId);
         }
 
-        private void OnSkillSelect(SkillItemView view)
+        private void OnSkillSelect(SkillItemView view, string id)
         {
             _selectedSkill.Unselect();
             _selectedSkill = view;
             _selectedSkill.Select();
+            _selectedId = id;
         }
     }
 }
