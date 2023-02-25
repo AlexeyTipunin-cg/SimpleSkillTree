@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.Text;
 namespace Assets.Scripts.Structures
@@ -52,7 +53,7 @@ namespace Assets.Scripts.Structures
             return string.Empty;
         }
 
-        public static bool HasPath<T>(this Graph<T> graph, T start, T finish)
+        public static bool HasPath<T>(this Graph<T> graph, T start, T finish, Func<T, bool> condition)
         {
             LinkedList<GraphNode<T>> searchList = new LinkedList<GraphNode<T>>();
             if (start.Equals(finish))
@@ -85,6 +86,11 @@ namespace Assets.Scripts.Structures
                     }
 
                     if (pathNodes.ContainsKey(neighbor))
+                    {
+                        continue;
+                    }
+
+                    if (!condition(neighbor.Value))
                     {
                         continue;
                     }

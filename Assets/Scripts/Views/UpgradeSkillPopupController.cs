@@ -7,23 +7,25 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts.Views
 {
-    public class UpgradeSkillPopupController
+    public partial class UpgradeSkillPopupController
     {
         private UpgradeSkillPopup _skillPopup;
         private Player _player;
-        public UpgradeSkillPopupController(Player player, UpgradeSkillPopup skillPopup)
+        public UpgradeSkillPopupController(Player player, UpgradeSkillPopup skillPopup, List<ViewData> viewData)
         {
             _skillPopup = skillPopup;
             _player = player;
 
             _player.onPointsUpdate += OnUpdateScore;
-            _skillPopup.onEarnPointCLick += AddPoints;
+            _skillPopup.onEarnPointClick += AddPoints;
+
+            skillPopup.Init(viewData);
         }
 
         public void Dispose()
         {
             _player.onPointsUpdate -= OnUpdateScore;
-            _skillPopup.onEarnPointCLick -= AddPoints;
+            _skillPopup.onEarnPointClick -= AddPoints;
         }
 
         private void OnUpdateScore(int skillPoints)

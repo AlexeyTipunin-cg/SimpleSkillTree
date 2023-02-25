@@ -23,8 +23,9 @@ namespace Assets.Scripts.Tree
                     _skillGraph.AddEdge(model, _modelsStorage[skillModel]);
                 }
             }
-
         }
+
+        
     }
 }
 

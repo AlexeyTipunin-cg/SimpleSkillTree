@@ -26,14 +26,27 @@ namespace Assets.Scripts
             new SkillModel("10", 1, false, true, new List<string>{"8", "9" }),
         };
 
+        private List<ViewData> _viewData = new List<ViewData>();
+
+
+
         private SkillTree _skillTree;
 
 
         private void Start()
         {
             Player player = new Player();
-            var skillPopup = new UpgradeSkillPopupController(player, _upgradeSkillPopup);
-            _upgradeSkillPopup.Init();
+            for (int i = 0; i < skills.Count; i++)
+            {
+                _viewData.Add(new ViewData
+                {
+                    skillId = skills[i].id,
+                    skillName = skills[i].id,
+                    index = i,
+                });
+            }
+
+            var skillPopup = new UpgradeSkillPopupController(player, _upgradeSkillPopup, _viewData);
             _skillTree = new SkillTree(skills);
         }
     }
