@@ -63,6 +63,7 @@ namespace Assets.Scripts.Tree
             {
                 if (model.isOpened && !_skillGraph.hasLeaf(model, _skillGraph.root.Value, m => m.isOpened, m => { return m.isOpened && m != model; }))
                 {
+                    _player.AddSkillPoints(model.cost);
                     _modelsStorage[id].ForgetSkill();
                     onSkillForget?.Invoke(id);
                 }

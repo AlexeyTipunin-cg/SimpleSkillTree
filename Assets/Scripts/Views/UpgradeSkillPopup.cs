@@ -23,11 +23,10 @@ namespace Assets.Scripts.Views
 
         [SerializeField] private SkillItemView[] _skillItemView;
 
-        private Dictionary<string, SkillItemView> skillItemView = new Dictionary<string, SkillItemView>();
-        private string _selectedId;
+        private SkillItemViewData _selectedData;
         private SkillItemView _selectedSkill;
 
-        public void Init(List<ViewData> viewData)
+        public void Init(List<SkillItemViewData> viewData)
         {
             _earnPointBtn.onClick.AddListener(OnEarnPointClick);
             _learnSkillBtn.onClick.AddListener(OnLearnSkillClick);
@@ -46,8 +45,6 @@ namespace Assets.Scripts.Views
                     view.Activate();
                 }
             }
-
-
 
             _selectedSkill = _skillItemView[0];
             _selectedSkill.Select();
@@ -81,20 +78,20 @@ namespace Assets.Scripts.Views
 
         private void OnLearnSkillClick()
         {
-            onSkillLearnClick?.Invoke(_selectedId);
+            onSkillLearnClick?.Invoke(_selectedData.skillId);
         }
 
         private void OnSkillForgetClick()
         {
-            onSkillForgetClick?.Invoke(_selectedId);
+            onSkillForgetClick?.Invoke(_selectedData.skillId);
         }
 
-        private void OnSkillSelect(SkillItemView view, string id)
+        private void OnSkillSelect(SkillItemView view, SkillItemViewData data)
         {
             _selectedSkill.Unselect();
             _selectedSkill = view;
             _selectedSkill.Select();
-            _selectedId = id;
+            _selectedData = data;
         }
     }
 }

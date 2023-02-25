@@ -26,7 +26,7 @@ namespace Assets.Scripts
             new SkillModel("10", 1, false, true, new List<string>{"8", "9" }),
         };
 
-        private List<ViewData> _viewData = new List<ViewData>();
+        private List<SkillItemViewData> _viewData = new List<SkillItemViewData>();
 
 
 
@@ -38,7 +38,7 @@ namespace Assets.Scripts
             Player player = new Player();
             for (int i = 0; i < skills.Count; i++)
             {
-                _viewData.Add(new ViewData
+                _viewData.Add(new SkillItemViewData
                 {
                     
                     skillId = skills[i].id,
@@ -50,7 +50,6 @@ namespace Assets.Scripts
 
             _skillTree = new SkillTreeModel(player, skills);
             var skillPopup = new UpgradeSkillPopupController(player, _upgradeSkillPopup, _skillTree, _viewData);
-
         }
     }
 }

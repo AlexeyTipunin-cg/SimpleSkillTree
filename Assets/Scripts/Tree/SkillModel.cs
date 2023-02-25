@@ -21,6 +21,12 @@ namespace Assets.Scripts.Tree
             _neighIds = neighIds;
         }
 
+        public int cost => _cost;
+        public string id => _id;
+        public bool isOpened => _isOpened;
+        public bool canForget => _canForget;
+        public List<string> neighIds => _neighIds;
+
         public void LearnSkill()
         {
             _isOpened = true;
@@ -30,11 +36,5 @@ namespace Assets.Scripts.Tree
         {
             _isOpened = false;
         }
-
-        public int cost => _cost;
-        public string id => _id;
-        public bool isOpened => _isOpened;
-        public bool canForget => _canForget;
-        public List<string> neighIds => _neighIds;
     }
 }

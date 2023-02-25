@@ -13,7 +13,7 @@ namespace Assets.Scripts.Views
         private UpgradeSkillPopup _skillPopup;
         private SkillTreeModel _skillTreeModel;
         private Player _player;
-        public UpgradeSkillPopupController(Player player, UpgradeSkillPopup skillPopup, SkillTreeModel skillTreeModel, List<ViewData> viewData)
+        public UpgradeSkillPopupController(Player player, UpgradeSkillPopup skillPopup, SkillTreeModel skillTreeModel, List<SkillItemViewData> viewData)
         {
             _skillPopup = skillPopup;
             _player = player;
