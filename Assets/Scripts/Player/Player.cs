@@ -4,16 +4,20 @@ namespace Assets.Scripts.player
 {
     public class Player
     {
-        public event Action<int> onPointsUpdate;
-        private int _points;
-        public int points
+        public event Action<int> onSkillPointsUpdate;
+        private int _skillPoints;
+
+        public int skillPoints => _skillPoints;
+        public void AddSkillPoints(int value)
         {
-            get { return _points; }
-            set
-            {
-                _points = value;
-                onPointsUpdate?.Invoke(value);
-            }
+            _skillPoints += value;
+            onSkillPointsUpdate?.Invoke(_skillPoints);
+        }
+
+        public void SpendSkillPoints(int value)
+        {
+            _skillPoints -= value;
+            onSkillPointsUpdate?.Invoke(_skillPoints);
         }
     }
 }

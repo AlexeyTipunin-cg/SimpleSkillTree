@@ -19,7 +19,7 @@ namespace Assets.Scripts.Views
             _player = player;
             _skillTreeModel = skillTreeModel;
 
-            _player.onPointsUpdate += OnUpdateScore;
+            _player.onSkillPointsUpdate += OnUpdateScore;
 
             _skillTreeModel.onSkillLearn += OnSkillLearn;
             _skillTreeModel.onSkillForget += ForgetSkill;
@@ -33,7 +33,7 @@ namespace Assets.Scripts.Views
 
         public void Dispose()
         {
-            _player.onPointsUpdate -= OnUpdateScore;
+            _player.onSkillPointsUpdate -= OnUpdateScore;
 
             _skillTreeModel.onSkillLearn -= OnSkillLearn;
             _skillTreeModel.onSkillForget -= ForgetSkill;
@@ -70,7 +70,7 @@ namespace Assets.Scripts.Views
 
         private void AddPoints()
         {
-            _player.points += 1;
+            _player.AddSkillPoints(1);
         }
     }
 }

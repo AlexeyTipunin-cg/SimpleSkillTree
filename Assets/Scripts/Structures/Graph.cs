@@ -8,18 +8,14 @@ namespace Assets.Scripts.Structures
         List<GraphNode<T>> nodes = new List<GraphNode<T>>();
 
         public int Count => nodes.Count;
-        public GraphNode<T> _root;
+        public GraphNode<T> root => _root;
+        private GraphNode<T> _root;
 
         public IList<GraphNode<T>> Nodes => nodes.AsReadOnly();
 
         public Graph()
         {
 
-        }
-
-        public Graph(GraphNode<T> root)
-        {
-            _root = root;
         }
 
         public void Clear()
@@ -41,6 +37,20 @@ namespace Assets.Scripts.Structures
             else
             {
                 nodes.Add(new GraphNode<T>(value));
+                return true;
+            }
+        }
+
+        public bool AddRootNode(T value)
+        {
+            if (Find(value) != null)
+            {
+                return false;
+            }
+            else
+            {
+                _root = new GraphNode<T>(value);
+                nodes.Add(_root);
                 return true;
             }
         }

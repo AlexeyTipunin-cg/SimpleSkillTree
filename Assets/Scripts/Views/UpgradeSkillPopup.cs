@@ -23,10 +23,9 @@ namespace Assets.Scripts.Views
 
         [SerializeField] private SkillItemView[] _skillItemView;
 
-        private SkillItemView _selectedSkill;
+        private Dictionary<string, SkillItemView> skillItemView = new Dictionary<string, SkillItemView>();
         private string _selectedId;
-
-        private Dictionary<ViewData, SkillItemView> skillItemView = new Dictionary<ViewData, SkillItemView>();
+        private SkillItemView _selectedSkill;
 
         public void Init(List<ViewData> viewData)
         {
@@ -37,12 +36,21 @@ namespace Assets.Scripts.Views
             foreach (var data in viewData)
             {
                 var view = _skillItemView[data.index];
+
                 view.onSelect += OnSkillSelect;
                 view.Init(data);
                 view.Unselect();
+
+                if (data.activated)
+                {
+                    view.Activate();
+                }
             }
 
+
+
             _selectedSkill = _skillItemView[0];
+            _selectedSkill.Select();
         }
 
         public void UpdateScoreText(string scoreText)
@@ -57,6 +65,7 @@ namespace Assets.Scripts.Views
 
         public void OnSkillLearn(string id)
         {
+
             _selectedSkill.Activate();
         }
 

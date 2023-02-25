@@ -40,13 +40,15 @@ namespace Assets.Scripts
             {
                 _viewData.Add(new ViewData
                 {
+                    
                     skillId = skills[i].id,
                     skillName = skills[i].id,
                     index = i,
+                    activated = skills[i].isOpened
                 });
             }
 
-            _skillTree = new SkillTreeModel(skills);
+            _skillTree = new SkillTreeModel(player, skills);
             var skillPopup = new UpgradeSkillPopupController(player, _upgradeSkillPopup, _skillTree, _viewData);
 
         }
