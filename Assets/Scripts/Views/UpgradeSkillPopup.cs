@@ -11,6 +11,7 @@ namespace Assets.Scripts.Views
         public event Action onEarnPointClick;
         public event Action<string> onSkillLearnClick;
         public event Action<string> onSkillForgetClick;
+        public event Action onForgetAllClick;
 
         [SerializeField] private TMP_Text _scoreText;
         [SerializeField] private TMP_Text _skillCostText;
@@ -23,6 +24,7 @@ namespace Assets.Scripts.Views
 
         [SerializeField] private SkillItemView[] _skillItemView;
 
+        Dictionary<string, SkillItemView> _idsToView = new Dictionary<string, SkillItemView>();
         private SkillItemViewData _selectedData;
         private SkillItemView _selectedSkill;
 
@@ -31,44 +33,51 @@ namespace Assets.Scripts.Views
             _earnPointBtn.onClick.AddListener(OnEarnPointClick);
             _learnSkillBtn.onClick.AddListener(OnLearnSkillClick);
             _forgetSkillBtn.onClick.AddListener(OnSkillForgetClick);
+            _foregetAllBtn.onClick.AddListener(OnForgetAllClick);
 
+            ProcessData(viewData);
+        }
+
+        private void ProcessData(List<SkillItemViewData> viewData)
+        {
             foreach (var data in viewData)
             {
                 var view = _skillItemView[data.index];
+                _idsToView.Add(data.skillId, view);
 
                 view.onSelect += OnSkillSelect;
-                view.Init(data);
+                view.UpdateData(data);
                 view.Unselect();
 
                 if (data.activated)
                 {
                     view.Activate();
                 }
+
             }
 
             _selectedSkill = _skillItemView[0];
             _selectedSkill.Select();
         }
 
-        public void UpdateScoreText(string scoreText)
+        public void UpdateScoreText(int score)
         {
-            _scoreText.text = scoreText;
+            _scoreText.text = score.ToString();
         }
 
-        public void UpdateSkillCostText(string skillCost)
+        public void UpdateSkillCostText(int skillCost)
         {
-            _skillCostText.text = skillCost;
+            _skillCostText.text = skillCost.ToString();
         }
 
         public void OnSkillLearn(string id)
         {
-
             _selectedSkill.Activate();
         }
 
         public void OnSkillForget(string id)
         {
-            _selectedSkill.Forget();
+            _idsToView[id].Forget();
         }
 
         private void OnEarnPointClick()
@@ -84,6 +93,25 @@ namespace Assets.Scripts.Views
         private void OnSkillForgetClick()
         {
             onSkillForgetClick?.Invoke(_selectedData.skillId);
+        }
+
+        private void OnForgetAllClick()
+        {
+            onForgetAllClick?.Invoke();
+        }
+
+        private void OnForgetAll(List<SkillItemViewData> viewData)
+        {
+            foreach (var data in viewData)
+            {
+                var view = _skillItemView[data.index];
+                view.UpdateData(data);
+
+                if (data.activated)
+                {
+                    view.Activate();
+                }
+            }
         }
 
         private void OnSkillSelect(SkillItemView view, SkillItemViewData data)

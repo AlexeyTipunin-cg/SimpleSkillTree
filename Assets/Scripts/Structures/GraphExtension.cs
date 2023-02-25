@@ -1,4 +1,5 @@
 ﻿
+using Assets.Scripts.Tree;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -29,9 +30,9 @@ namespace Assets.Scripts.Structures
                 GraphNode<T> currentNode = searchList.First.Value;
                 searchList.RemoveFirst();
 
-                foreach (GraphNode<T> neighbor in currentNode.Neighbors)
+                foreach (GraphNode<T> neighbor in currentNode.neighbors)
                 {
-                    if (neighbor.Value.Equals(finish))
+                    if (neighbor.value.Equals(finish))
                     {
                         pathNodes.Add(neighbor, new PathNodeInfo<T>(currentNode));
                         return ConvertPathToString(neighbor, pathNodes);
@@ -76,9 +77,9 @@ namespace Assets.Scripts.Structures
                 GraphNode<T> currentNode = searchList.First.Value;
                 searchList.RemoveFirst();
 
-                foreach (GraphNode<T> neighbor in currentNode.Neighbors)
+                foreach (GraphNode<T> neighbor in currentNode.neighbors)
                 {
-                    if (neighbor.Value.Equals(finish))
+                    if (neighbor.value.Equals(finish))
                     {
                         pathNodes.Add(neighbor, new PathNodeInfo<T>(currentNode));
                         return true;
@@ -90,7 +91,7 @@ namespace Assets.Scripts.Structures
                         continue;
                     }
 
-                    if (!condition(neighbor.Value))
+                    if (!condition(neighbor.value))
                     {
                         continue;
                     }
@@ -105,19 +106,19 @@ namespace Assets.Scripts.Structures
             return false;
         }
 
-        public static bool hasLeaf<T>(this Graph<T> graph, T target, T root, Func<T, bool> filterCondition, Func<T, bool> condition)
+        public static bool hasLeaf<T>(this Graph<T> graph, T target, T root, Func<T, bool> condition) where T : SkillModel
         {
             LinkedList<GraphNode<T>> searchList = new LinkedList<GraphNode<T>>();
             var startNode = graph.Find(target);
             var rootNode = graph.Find(root);
-            foreach (var n in startNode.Neighbors)
+            foreach (var n in startNode.neighbors)
             {
-                if (!filterCondition(n.Value))
+                if (!n.value.isOpened)
                 {
                     continue;
                 }
 
-                bool hasPath = graph.HasPath(n.Value, root, condition);
+                bool hasPath = graph.HasPath(n.value, root, condition);
                 if (!hasPath)
                 {
                     return true;
@@ -144,7 +145,7 @@ namespace Assets.Scripts.Structures
             while (currentNode != null)
             {
                 nodeCount++;
-                pathStr.Append(currentNode.Value.Value);
+                pathStr.Append(currentNode.Value.value);
                 if (nodeCount < path.Count)
                 {
                     pathStr.Append(" ");

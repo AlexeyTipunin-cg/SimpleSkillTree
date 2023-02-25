@@ -15,7 +15,7 @@ namespace Assets.Scripts.Views
 
         private SkillItemViewData _data;
 
-        public void Init(SkillItemViewData data)
+        public void UpdateData(SkillItemViewData data)
         {
             _data = data;
             _skillName.text = _data.skillName;

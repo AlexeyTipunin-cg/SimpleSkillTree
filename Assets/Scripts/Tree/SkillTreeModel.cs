@@ -45,7 +45,7 @@ namespace Assets.Scripts.Tree
         public void LearnSkill(string id)
         {
             var targetModel = _modelsStorage[id];
-            bool canLearn = _skillGraph.HasPath(targetModel, _skillGraph.root.Value, model => model.isOpened);
+            bool canLearn = _skillGraph.HasPath(targetModel, _skillGraph.root.value, model => model.isOpened);
             if (canLearn)
             {
                 if (_player.skillPoints >= targetModel.cost)
@@ -57,11 +57,24 @@ namespace Assets.Scripts.Tree
             }
         }
 
+        public void ForgetAllSkills()
+        {
+            foreach (var skill in _modelsStorage.Values)
+            {
+                if (skill.canForget && skill.isOpened)
+                {
+                    _player.AddSkillPoints(skill.cost);
+                    skill.ForgetSkill();
+                    onSkillForget?.Invoke(skill.id);
+                }
+            }
+        }
+
         public void ForgetSkill(string id)
         {
             if (_modelsStorage.TryGetValue(id, out var model))
             {
-                if (model.isOpened && !_skillGraph.hasLeaf(model, _skillGraph.root.Value, m => m.isOpened, m => { return m.isOpened && m != model; }))
+                if (model.isOpened && !_skillGraph.hasLeaf(model, _skillGraph.root.value, m => { return m.isOpened && m != model; }))
                 {
                     _player.AddSkillPoints(model.cost);
                     _modelsStorage[id].ForgetSkill();

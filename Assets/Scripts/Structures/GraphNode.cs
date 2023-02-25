@@ -5,56 +5,53 @@ namespace Assets.Scripts.Structures
 {
     public class GraphNode<T>
     {
-        T value;
-        List<GraphNode<T>> neighbors;
+        private T _value;
+        private List<GraphNode<T>> _neighbors;
 
         public GraphNode(T value)
         {
-            this.value = value;
-            neighbors = new List<GraphNode<T>>();
+            this._value = value;
+            _neighbors = new List<GraphNode<T>>();
         }
 
-        public T Value
-        {
-            get { return value; }
-        }
+        public T value => _value;
 
-        public IList<GraphNode<T>> Neighbors
+        public IList<GraphNode<T>> neighbors
         {
-            get { return neighbors.AsReadOnly(); }
+            get { return _neighbors.AsReadOnly(); }
         }
 
         public bool AddNeighbor(GraphNode<T> node)
         {
-            if (neighbors.Contains(node))
+            if (_neighbors.Contains(node))
             {
                 return false;
             }
             else
             {
-                neighbors.Add(node);
+                _neighbors.Add(node);
                 return true;
             }
         }
 
         public bool RemoveNeighbor(GraphNode<T> node)
         {
-            return neighbors.Remove(node);
+            return _neighbors.Remove(node);
         }
 
         public bool RemoveAllNeighbors()
         {
-            neighbors.Clear();
+            _neighbors.Clear();
             return true;
         }
 
         public override string ToString()
         {
             StringBuilder nodeString = new StringBuilder();
-            nodeString.Append($"[Node Value: {value} Neighbors:");
-            for (int i = 0; i < neighbors.Count; i++)
+            nodeString.Append($"[Node Value: {_value} Neighbors:");
+            for (int i = 0; i < _neighbors.Count; i++)
             {
-                nodeString.Append(neighbors[i].Value + " ");
+                nodeString.Append(_neighbors[i].value + " ");
             }
             nodeString.Append(']');
             return nodeString.ToString();

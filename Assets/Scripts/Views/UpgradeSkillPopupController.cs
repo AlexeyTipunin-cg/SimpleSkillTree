@@ -27,8 +27,14 @@ namespace Assets.Scripts.Views
             _skillPopup.onEarnPointClick += AddPoints;
             _skillPopup.onSkillLearnClick += OnLearnSkillClick;
             _skillPopup.onSkillForgetClick += OnForgetSkillClick;
+            _skillPopup.onForgetAllClick += OnForgetAllClick;
 
             skillPopup.Init(viewData);
+        }
+
+        private List<SkillItemViewData> ProcessDataFromModel()
+        {
+            return null;
         }
 
         public void Dispose()
@@ -45,7 +51,7 @@ namespace Assets.Scripts.Views
 
         private void OnUpdateScore(int skillPoints)
         {
-            _skillPopup.UpdateScoreText(skillPoints.ToString());
+            _skillPopup.UpdateScoreText(skillPoints);
         }
 
         private void ForgetSkill(string id)
@@ -66,6 +72,11 @@ namespace Assets.Scripts.Views
         private void OnLearnSkillClick(string id)
         {
             _skillTreeModel.LearnSkill(id);
+        }
+
+        private void OnForgetAllClick()
+        {
+            _skillTreeModel.ForgetAllSkills();
         }
 
         private void AddPoints()

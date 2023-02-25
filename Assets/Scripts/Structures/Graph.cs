@@ -64,7 +64,7 @@ namespace Assets.Scripts.Structures
                 return false;
             }
 
-            if (node1.Neighbors.Contains(node2))
+            if (node1.neighbors.Contains(node2))
             {
                 return false;
             }
@@ -96,7 +96,7 @@ namespace Assets.Scripts.Structures
             GraphNode<T> node2 = Find(value2);
 
             if (node1 == null || node2 == null) return false;
-            if (!node1.Neighbors.Contains(node2)) return false;
+            if (!node1.neighbors.Contains(node2)) return false;
 
             node1.RemoveNeighbor(node2);
             node2.RemoveNeighbor(node1);
@@ -107,7 +107,7 @@ namespace Assets.Scripts.Structures
         {
             foreach (var node in nodes)
             {
-                if (node.Value.Equals(value))
+                if (node.value.Equals(value))
                 {
                     return node;
                 }
