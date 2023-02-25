@@ -2745,6 +2745,16 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6623389084021276970, guid: 76e5bf093b0a1e3458740d8e2f69a828,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.8235294
+      objectReference: {fileID: 0}
+    - target: {fileID: 6623389084021276970, guid: 76e5bf093b0a1e3458740d8e2f69a828,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.29803923
+      objectReference: {fileID: 0}
     - target: {fileID: 6623389085460767072, guid: 76e5bf093b0a1e3458740d8e2f69a828,
         type: 3}
       propertyPath: m_Pivot.x

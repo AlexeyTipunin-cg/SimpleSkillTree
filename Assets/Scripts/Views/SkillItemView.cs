@@ -9,7 +9,8 @@ namespace Assets.Scripts.Views
     public class SkillItemView : MonoBehaviour, IPointerDownHandler
     {
         public event Action<SkillItemView, string> onSelect;
-        [SerializeField] private Image _skillBack;
+        [SerializeField] private Image _itemBack;
+        [SerializeField] private Image _selectionOutline;
         [SerializeField] private TMP_Text _skillName;
         private string _id;
 
@@ -21,17 +22,22 @@ namespace Assets.Scripts.Views
 
         public void Select()
         {
-            _skillBack.color = Color.yellow;
+            _selectionOutline.gameObject.SetActive(true);
         }
 
         public void Unselect()
         {
-            _skillBack.color = Color.cyan;
+            _selectionOutline.gameObject.SetActive(false);
+        }
+
+        public void Forget()
+        {
+            _itemBack.color = Color.cyan;
         }
 
         public void Activate()
         {
-            _skillBack.color = Color.green;
+            _itemBack.color = Color.green;
         }
 
         public void OnPointerDown(PointerEventData eventData)
