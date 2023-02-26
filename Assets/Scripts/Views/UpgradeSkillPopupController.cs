@@ -35,6 +35,7 @@ namespace Assets.Scripts.Views
                 skillId = x.id,
                 skillName = x.id,
                 activated = x.isOpened,
+                cost= x.cost,
                 index = _skillService.skillConfig.skillToIcon[x.id]
             }).ToList();
 

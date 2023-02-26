@@ -8,7 +8,7 @@ namespace Assets.Scripts.Views
 {
     public class SkillItemView : MonoBehaviour, IPointerDownHandler
     {
-        public event Action<SkillItemView, SkillItemViewData> onSelect;
+        public event Action<SkillItemViewData> onSelect;
         [SerializeField] private Image _itemBack;
         [SerializeField] private Image _selectionOutline;
         [SerializeField] private TMP_Text _skillName;
@@ -46,7 +46,7 @@ namespace Assets.Scripts.Views
         public void OnPointerDown(PointerEventData eventData)
         {
             Select();
-            onSelect?.Invoke(this, _data);
+            onSelect?.Invoke(_data);
         }
     }
 }

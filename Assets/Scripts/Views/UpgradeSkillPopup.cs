@@ -13,7 +13,7 @@ namespace Assets.Scripts.Views
         public event Action<string> onSkillForgetClick;
         public event Action onForgetAllClick;
 
-        [SerializeField] private TMP_Text _scoreText;
+        [SerializeField] private TMP_Text _skillPointsText;
         [SerializeField] private TMP_Text _skillCostText;
 
         [SerializeField] private Button _learnSkillBtn;
@@ -24,9 +24,8 @@ namespace Assets.Scripts.Views
 
         [SerializeField] private SkillItemView[] _skillItemView;
 
-        Dictionary<string, SkillItemView> _idsToView = new Dictionary<string, SkillItemView>();
+        private Dictionary<string, SkillItemView> _idsToView = new Dictionary<string, SkillItemView>();
         private SkillItemViewData _selectedData;
-        private SkillItemView _selectedSkill;
 
         public void Init(List<SkillItemViewData> viewData)
         {
@@ -42,8 +41,7 @@ namespace Assets.Scripts.Views
 
             ProcessData(viewData);
 
-            _selectedSkill = _skillItemView[0];
-            _selectedSkill.Select();
+            OnSkillSelect(viewData[0]);
         }
 
         private void ProcessData(List<SkillItemViewData> viewData)
@@ -66,7 +64,7 @@ namespace Assets.Scripts.Views
 
         public void UpdateScoreText(int score)
         {
-            _scoreText.text = score.ToString();
+            _skillPointsText.text = score.ToString();
         }
 
         public void UpdateSkillCostText(int skillCost)
@@ -104,12 +102,17 @@ namespace Assets.Scripts.Views
             onForgetAllClick?.Invoke();
         }
 
-        private void OnSkillSelect(SkillItemView view, SkillItemViewData data)
+        private void OnSkillSelect(SkillItemViewData data)
         {
-            _selectedSkill.Unselect();
-            _selectedSkill = view;
-            _selectedSkill.Select();
+            if (_selectedData != null)
+            {
+                _idsToView[_selectedData.skillId].Unselect();
+            }
+
             _selectedData = data;
+
+            _idsToView[_selectedData.skillId].Select();
+            _skillCostText.text = data.cost.ToString();
         }
     }
 }
