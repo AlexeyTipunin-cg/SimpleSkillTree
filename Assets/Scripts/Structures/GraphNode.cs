@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Assets.Scripts.Structures
 {
@@ -47,19 +45,5 @@ namespace Assets.Scripts.Structures
             _neighbors.Clear();
             return true;
         }
-
-        public override string ToString()
-        {
-            StringBuilder nodeString = new StringBuilder();
-            nodeString.Append($"[Node Value: {_value} Neighbors:");
-            var neighborsList = _neighbors.ToList();
-            for (int i = 0; i < _neighbors.Count; i++)
-            {
-                nodeString.Append(neighborsList[i].value + " ");
-            }
-            nodeString.Append(']');
-            return nodeString.ToString();
-        }
-
     }
 }

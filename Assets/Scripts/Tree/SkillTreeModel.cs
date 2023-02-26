@@ -74,12 +74,20 @@ namespace Assets.Scripts.Tree
         {
             if (_modelsStorage.TryGetValue(id, out var model))
             {
-                if (model.isOpened && !_skillGraph.hasLeaf(model, _skillGraph.root.value, m => { return m.isOpened && m != model; }))
+                if (!model.isOpened)
+                {
+                    return;
+                }
+
+                var neighbours = _skillGraph.FilterNeighbors(model, m => m.isOpened);
+                var isGraphOk = _skillGraph.AreNodesConnected(neighbours, _skillGraph.root.value, m => m.isOpened && m != model);
+                if (isGraphOk)
                 {
                     _player.AddSkillPoints(model.cost);
                     _modelsStorage[id].ForgetSkill();
                     onSkillForget?.Invoke(id);
                 }
+
             }
         }
 
