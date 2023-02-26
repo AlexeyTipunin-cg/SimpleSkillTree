@@ -5,27 +5,25 @@ namespace Assets.Scripts.Structures
 {
     public class Graph<T>
     {
-        List<GraphNode<T>> nodes = new List<GraphNode<T>>();
-
-        public int Count => nodes.Count;
-        public GraphNode<T> root => _root;
+        private List<GraphNode<T>> _nodes = new List<GraphNode<T>>();
         private GraphNode<T> _root;
-
-        public IList<GraphNode<T>> Nodes => nodes.AsReadOnly();
 
         public Graph()
         {
-
         }
+
+        public int count => _nodes.Count;
+        public GraphNode<T> root => _root;
+        public IList<GraphNode<T>> nodes => _nodes.AsReadOnly();
 
         public void Clear()
         {
-            foreach (GraphNode<T> node in nodes)
+            foreach (GraphNode<T> node in _nodes)
             {
                 node.RemoveAllNeighbors();
             }
 
-            nodes.Clear();
+            _nodes.Clear();
         }
 
         public bool AddNode(T value)
@@ -36,7 +34,7 @@ namespace Assets.Scripts.Structures
             }
             else
             {
-                nodes.Add(new GraphNode<T>(value));
+                _nodes.Add(new GraphNode<T>(value));
                 return true;
             }
         }
@@ -50,7 +48,7 @@ namespace Assets.Scripts.Structures
             else
             {
                 _root = new GraphNode<T>(value);
-                nodes.Add(_root);
+                _nodes.Add(_root);
                 return true;
             }
         }
@@ -82,8 +80,8 @@ namespace Assets.Scripts.Structures
                 return false;
             }
 
-            nodes.Remove(removeNode);
-            foreach (var node in nodes)
+            _nodes.Remove(removeNode);
+            foreach (var node in _nodes)
             {
                 node.RemoveNeighbor(removeNode);
             }
@@ -105,7 +103,7 @@ namespace Assets.Scripts.Structures
 
         public GraphNode<T> Find(T value)
         {
-            foreach (var node in nodes)
+            foreach (var node in _nodes)
             {
                 if (node.value.Equals(value))
                 {
@@ -118,10 +116,10 @@ namespace Assets.Scripts.Structures
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < Count; i++)
+            for (int i = 0; i < count; i++)
             {
-                builder.Append(nodes[i].ToString());
-                if (i < Count - 1)
+                builder.Append(_nodes[i].ToString());
+                if (i < count - 1)
                 {
                     builder.Append(',');
                 }
