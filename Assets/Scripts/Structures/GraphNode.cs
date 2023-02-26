@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Assets.Scripts.Structures
@@ -6,19 +7,19 @@ namespace Assets.Scripts.Structures
     public class GraphNode<T>
     {
         private T _value;
-        private List<GraphNode<T>> _neighbors;
+        private HashSet<GraphNode<T>> _neighbors;
 
         public GraphNode(T value)
         {
             this._value = value;
-            _neighbors = new List<GraphNode<T>>();
+            _neighbors = new HashSet<GraphNode<T>>();
         }
 
         public T value => _value;
 
-        public IList<GraphNode<T>> neighbors
+        public IReadOnlyCollection<GraphNode<T>> neighbors
         {
-            get { return _neighbors.AsReadOnly(); }
+            get { return _neighbors; }
         }
 
         public bool AddNeighbor(GraphNode<T> node)
@@ -49,9 +50,10 @@ namespace Assets.Scripts.Structures
         {
             StringBuilder nodeString = new StringBuilder();
             nodeString.Append($"[Node Value: {_value} Neighbors:");
+            var neighborsList = _neighbors.ToList();
             for (int i = 0; i < _neighbors.Count; i++)
             {
-                nodeString.Append(_neighbors[i].value + " ");
+                nodeString.Append(neighborsList[i].value + " ");
             }
             nodeString.Append(']');
             return nodeString.ToString();
