@@ -8,18 +8,20 @@ namespace Assets.Scripts.Structures
     {
         private T _value;
         private HashSet<GraphNode<T>> _neighbors;
+        private ReadOnlySet<GraphNode<T>> _roNeighbors;
 
         public GraphNode(T value)
         {
-            this._value = value;
+            _value = value;
             _neighbors = new HashSet<GraphNode<T>>();
+            _roNeighbors = _neighbors.AsReadOnly();
         }
 
         public T value => _value;
 
-        public IReadOnlyCollection<GraphNode<T>> neighbors
+        public ReadOnlySet<GraphNode<T>> neighbors
         {
-            get { return _neighbors; }
+            get { return _roNeighbors; }
         }
 
         public bool AddNeighbor(GraphNode<T> node)
