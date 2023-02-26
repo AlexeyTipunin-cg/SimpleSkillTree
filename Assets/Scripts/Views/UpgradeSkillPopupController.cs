@@ -1,28 +1,22 @@
 ﻿using Assets.Scripts.player;
-using Assets.Scripts.Tree;
+using Assets.Scripts.SkillTree;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Assets.Scripts.Views
 {
     public partial class UpgradeSkillPopupController
     {
         private UpgradeSkillPopup _skillPopup;
-        private SkillTreeModel _skillTreeModel;
-        private Player _player;
-        public UpgradeSkillPopupController(Player player, UpgradeSkillPopup skillPopup, SkillTreeModel skillTreeModel, List<SkillItemViewData> viewData)
+        private SkillService _skillService;
+        public UpgradeSkillPopupController(SkillService skillService, UpgradeSkillPopup skillPopup, List<SkillItemViewData> viewData)
         {
             _skillPopup = skillPopup;
-            _player = player;
-            _skillTreeModel = skillTreeModel;
+            _skillService = skillService;
+            _skillService.player.onSkillPointsUpdate += OnUpdateScore;
 
-            _player.onSkillPointsUpdate += OnUpdateScore;
-
-            _skillTreeModel.onSkillLearn += OnSkillLearn;
-            _skillTreeModel.onSkillForget += ForgetSkill;
+            _skillService.onSkillLearn += OnSkillLearn;
+            _skillService.onSkillForget += ForgetSkill;
 
             _skillPopup.onEarnPointClick += AddPoints;
             _skillPopup.onSkillLearnClick += OnLearnSkillClick;
@@ -39,10 +33,10 @@ namespace Assets.Scripts.Views
 
         public void Dispose()
         {
-            _player.onSkillPointsUpdate -= OnUpdateScore;
+            _skillService.player.onSkillPointsUpdate -= OnUpdateScore;
 
-            _skillTreeModel.onSkillLearn -= OnSkillLearn;
-            _skillTreeModel.onSkillForget -= ForgetSkill;
+            _skillService.onSkillLearn -= OnSkillLearn;
+            _skillService.onSkillForget -= ForgetSkill;
 
             _skillPopup.onEarnPointClick -= AddPoints;
             _skillPopup.onSkillLearnClick -= OnLearnSkillClick;
@@ -61,7 +55,7 @@ namespace Assets.Scripts.Views
 
         private void OnForgetSkillClick(string id)
         {
-            _skillTreeModel.ForgetSkill(id);
+            _skillService.ForgetSkill(id);
         }
 
         private void OnSkillLearn(string id)
@@ -71,17 +65,17 @@ namespace Assets.Scripts.Views
 
         private void OnLearnSkillClick(string id)
         {
-            _skillTreeModel.LearnSkill(id);
+            _skillService.LearnSkill(id);
         }
 
         private void OnForgetAllClick()
         {
-            _skillTreeModel.ForgetAllSkills();
+            _skillService.ForgetAllSkills();
         }
 
         private void AddPoints()
         {
-            _player.AddSkillPoints(1);
+            _skillService.player.AddSkillPoints(1);
         }
     }
 }

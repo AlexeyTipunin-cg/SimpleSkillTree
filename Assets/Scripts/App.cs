@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.player;
-using Assets.Scripts.Structures;
-using Assets.Scripts.Tree;
+using Assets.Scripts.SkillTree;
 using Assets.Scripts.Views;
 using System.Collections.Generic;
 using UnityEngine;
@@ -48,8 +47,9 @@ namespace Assets.Scripts
                 });
             }
 
-            _skillTreeModel = new SkillTreeModel(player, skills);
-            var skillPopupController = new UpgradeSkillPopupController(player, _upgradeSkillPopup, _skillTreeModel, _viewData);
+            _skillTreeModel = new SkillTreeModel(skills);
+            var skillService = new SkillService(player, _skillTreeModel);
+            var skillPopupController = new UpgradeSkillPopupController(skillService, _upgradeSkillPopup, _viewData);
         }
     }
 }
