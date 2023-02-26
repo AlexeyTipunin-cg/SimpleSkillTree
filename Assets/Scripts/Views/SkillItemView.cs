@@ -12,6 +12,8 @@ namespace Assets.Scripts.Views
         [SerializeField] private Image _itemBack;
         [SerializeField] private Image _selectionOutline;
         [SerializeField] private TMP_Text _skillName;
+        [SerializeField] private Color _active;
+        [SerializeField] private Color _inactive;
 
         private SkillItemViewData _data;
 
@@ -33,12 +35,12 @@ namespace Assets.Scripts.Views
 
         public void Forget()
         {
-            _itemBack.color = Color.cyan;
+            _itemBack.color = _inactive;
         }
 
         public void Activate()
         {
-            _itemBack.color = Color.green;
+            _itemBack.color = _active;
         }
 
         public void OnPointerDown(PointerEventData eventData)
