@@ -45,7 +45,7 @@ namespace Assets.Scripts.Tree
         public void LearnSkill(string id)
         {
             var targetModel = _modelsStorage[id];
-            bool canLearn = _skillGraph.HasPath(targetModel, _skillGraph.root.value, model => model.isOpened);
+            bool canLearn = _skillGraph.AreNodesConnected(targetModel, _skillGraph.root.value, model => model.isOpened);
             if (canLearn)
             {
                 if (_player.skillPoints >= targetModel.cost)

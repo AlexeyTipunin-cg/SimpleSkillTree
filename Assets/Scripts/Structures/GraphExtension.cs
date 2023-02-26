@@ -54,9 +54,9 @@ namespace Assets.Scripts.Structures
             return string.Empty;
         }
 
-        public static bool HasPath<T>(this Graph<T> graph, T start, T finish, Func<T, bool> condition)
+        public static bool AreNodesConnected<T>(this Graph<T> graph, T start, T finish, Func<T, bool> condition)
         {
-            LinkedList<GraphNode<T>> searchList = new LinkedList<GraphNode<T>>();
+            Queue<GraphNode<T>> searchList = new Queue<GraphNode<T>>();
             if (start.Equals(finish))
             {
                 return true;
@@ -68,25 +68,22 @@ namespace Assets.Scripts.Structures
             }
 
             var startNode = graph.Find(start);
-            Dictionary<GraphNode<T>, PathNodeInfo<T>> pathNodes = new Dictionary<GraphNode<T>, PathNodeInfo<T>>();
-            pathNodes.Add(startNode, new PathNodeInfo<T>(null));
-            searchList.AddFirst(startNode);
+            HashSet<GraphNode<T>> visitedNodes = new HashSet<GraphNode<T>>();
+            searchList.Enqueue(startNode);
 
             while (searchList.Count > 0)
             {
-                GraphNode<T> currentNode = searchList.First.Value;
-                searchList.RemoveFirst();
+                GraphNode<T> currentNode = searchList.Dequeue();
 
                 foreach (GraphNode<T> neighbor in currentNode.neighbors)
                 {
                     if (neighbor.value.Equals(finish))
                     {
-                        pathNodes.Add(neighbor, new PathNodeInfo<T>(currentNode));
                         return true;
 
                     }
 
-                    if (pathNodes.ContainsKey(neighbor))
+                    if (visitedNodes.Contains(neighbor))
                     {
                         continue;
                     }
@@ -96,10 +93,8 @@ namespace Assets.Scripts.Structures
                         continue;
                     }
 
-                    pathNodes.Add(neighbor, new PathNodeInfo<T>(currentNode));
-
-                    searchList.AddLast(neighbor);
-
+                    visitedNodes.Add(neighbor);
+                    searchList.Enqueue(neighbor);
                 }
 
             }
@@ -118,7 +113,7 @@ namespace Assets.Scripts.Structures
                     continue;
                 }
 
-                bool hasPath = graph.HasPath(n.value, root, condition);
+                bool hasPath = graph.AreNodesConnected(n.value, root, condition);
                 if (!hasPath)
                 {
                     return true;
