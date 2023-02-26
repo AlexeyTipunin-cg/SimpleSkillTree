@@ -2,6 +2,7 @@
 using Assets.Scripts.SkillTree;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Assets.Scripts.Views
 {
@@ -9,7 +10,7 @@ namespace Assets.Scripts.Views
     {
         private UpgradeSkillPopup _skillPopup;
         private SkillService _skillService;
-        public UpgradeSkillPopupController(SkillService skillService, UpgradeSkillPopup skillPopup, List<SkillItemViewData> viewData)
+        public UpgradeSkillPopupController(SkillService skillService, UpgradeSkillPopup skillPopup)
         {
             _skillPopup = skillPopup;
             _skillService = skillService;
@@ -23,12 +24,21 @@ namespace Assets.Scripts.Views
             _skillPopup.onSkillForgetClick += OnForgetSkillClick;
             _skillPopup.onForgetAllClick += OnForgetAllClick;
 
-            skillPopup.Init(viewData);
+            skillPopup.Init(ProcessDataFromModel());
         }
 
         private List<SkillItemViewData> ProcessDataFromModel()
         {
-            return null;
+            var models = _skillService.skillTreeModels;
+            var data = models.Select(x => new SkillItemViewData
+            {
+                skillId = x.id,
+                skillName = x.id,
+                activated = x.isOpened,
+                index = _skillService.skillConfig.skillToIcon[x.id]
+            }).ToList();
+
+            return data;
         }
 
         public void Dispose()

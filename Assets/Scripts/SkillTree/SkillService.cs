@@ -1,5 +1,7 @@
 ﻿using Assets.Scripts.player;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Assets.Scripts.SkillTree
 {
@@ -20,14 +22,18 @@ namespace Assets.Scripts.SkillTree
 
         private readonly Player _player;
         private readonly SkillTreeModel _skillTreeModel;
+        private readonly SkillConfig _skillConfig;
 
-        public SkillService(Player player, SkillTreeModel skillTreeModel)
+        public SkillService(Player player, SkillTreeModel skillTreeModel, SkillConfig skillConfig)
         {
             _player = player;
             _skillTreeModel = skillTreeModel;
+            _skillConfig = skillConfig;
         }
 
         public Player player => _player;
+        public List<SkillModel> skillTreeModels => _skillTreeModel.modelsStorage.Values.ToList();
+        public SkillConfig skillConfig => _skillConfig;
 
         public void LearnSkill(string id)
         {

@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Views
 {
 
-    public struct SkillItemViewData
+    public class SkillItemViewData
     {
         public string skillId;
         public string skillName;

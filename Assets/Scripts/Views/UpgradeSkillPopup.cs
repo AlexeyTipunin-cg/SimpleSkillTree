@@ -35,7 +35,15 @@ namespace Assets.Scripts.Views
             _forgetSkillBtn.onClick.AddListener(OnSkillForgetClick);
             _foregetAllBtn.onClick.AddListener(OnForgetAllClick);
 
+            foreach (var view in _skillItemView)
+            {
+                view.onSelect += OnSkillSelect;
+            }
+
             ProcessData(viewData);
+
+            _selectedSkill = _skillItemView[0];
+            _selectedSkill.Select();
         }
 
         private void ProcessData(List<SkillItemViewData> viewData)
@@ -45,7 +53,7 @@ namespace Assets.Scripts.Views
                 var view = _skillItemView[data.index];
                 _idsToView.Add(data.skillId, view);
 
-                view.onSelect += OnSkillSelect;
+
                 view.UpdateData(data);
                 view.Unselect();
 
@@ -53,11 +61,7 @@ namespace Assets.Scripts.Views
                 {
                     view.Activate();
                 }
-
             }
-
-            _selectedSkill = _skillItemView[0];
-            _selectedSkill.Select();
         }
 
         public void UpdateScoreText(int score)
