@@ -1,17 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.Resources;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Assets.Scripts.SkillTree
 {
     public class SkillModel
     {
-        private int _cost;
+        private Resource _cost;
         private string _id;
         private string _name;
         private bool _isOpened;
         private bool _canForget;
         private List<string> _neighIds;
-        public SkillModel(string id, int cost, bool isOpened, bool canForget, List<string> neighIds)
+        public SkillModel(string id, Resource cost, bool isOpened, bool canForget, List<string> neighIds)
         {
             _id = id;
             _name = id;
@@ -21,7 +22,7 @@ namespace Assets.Scripts.SkillTree
             _neighIds = neighIds;
         }
 
-        public int cost => _cost;
+        public Resource cost => _cost;
         public string id => _id;
         public string name => _name;
         public bool isOpened => _isOpened;

@@ -1,23 +1,44 @@
-﻿using System;
+﻿using Assets.Scripts.Resources;
+
+using System;
+using System.Collections.Generic;
 
 namespace Assets.Scripts.player
 {
     public class Player
     {
-        public event Action<int> onSkillPointsUpdate;
-        private int _skillPoints;
+        private Dictionary<ResourceTypes, ResourceItem> _resources = new Dictionary<ResourceTypes, ResourceItem>();
 
-        public int skillPoints => _skillPoints;
-        public void AddSkillPoints(int value)
+        public Player()
         {
-            _skillPoints += value;
-            onSkillPointsUpdate?.Invoke(_skillPoints);
+
+            _resources[ResourceTypes.SkillPoints] = new ResourceItem();
         }
 
-        public void SpendSkillPoints(int value)
+        public void AddResource(Resource res)
         {
-            _skillPoints -= value;
-            onSkillPointsUpdate?.Invoke(_skillPoints);
+            _resources[res.type].AddResouce(res.value);
         }
+
+        public void SpendResource(Resource res)
+        {
+            _resources[res.type].SpendResouce(res.value);
+        }
+
+        public int GetResource(ResourceTypes type)
+        {
+            return _resources[type].value;
+        }
+
+        public void SubscribeResource(ResourceTypes type, Action<int> callback)
+        {
+            _resources[type].onUpdate += callback;
+        }
+
+        public void UnsubscribeResource(ResourceTypes type, Action<int> callback)
+        {
+            _resources[type].onUpdate -= callback;
+        }
+
     }
 }

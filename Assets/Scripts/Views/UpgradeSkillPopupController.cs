@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.player;
+using Assets.Scripts.Resources;
 using Assets.Scripts.SkillTree;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace Assets.Scripts.Views
         {
             _skillPopup = skillPopup;
             _skillService = skillService;
-            _skillService.player.onSkillPointsUpdate += OnUpdateScore;
+            _skillService.player.SubscribeResource(ResourceTypes.SkillPoints, OnUpdateScore);
 
             _skillService.onSkillLearn += OnSkillLearn;
             _skillService.onSkillForget += ForgetSkill;
@@ -48,14 +49,14 @@ namespace Assets.Scripts.Views
                 skillId = skill.id,
                 skillName = skill.name,
                 activated = skill.isOpened,
-                cost = skill.cost,
+                cost = skill.cost.value,
                 index = _skillService.skillConfig.skillToIcon[skill.id]
             };
         }
 
         public void Dispose()
         {
-            _skillService.player.onSkillPointsUpdate -= OnUpdateScore;
+            _skillService.player.UnsubscribeResource(ResourceTypes.SkillPoints, OnUpdateScore);
 
             _skillService.onSkillLearn -= OnSkillLearn;
             _skillService.onSkillForget -= ForgetSkill;
@@ -99,7 +100,7 @@ namespace Assets.Scripts.Views
 
         private void AddPoints()
         {
-            _skillService.player.AddSkillPoints(1);
+            _skillService.player.AddResource(new Resource { type = ResourceTypes.SkillPoints, value = 1 });
         }
     }
 }

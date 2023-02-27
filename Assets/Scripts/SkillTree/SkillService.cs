@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.player;
+using Assets.Scripts.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,13 +56,13 @@ namespace Assets.Scripts.SkillTree
                 return;
             }
 
-            bool notEnoughSkillPoints = _player.skillPoints < targetModel.cost;
+            bool notEnoughSkillPoints = _player.GetResource(ResourceTypes.SkillPoints) < targetModel.cost.value;
             if (notEnoughSkillPoints)
             {
                 return;
             }
 
-            _player.SpendSkillPoints(targetModel.cost);
+            _player.SpendResource(targetModel.cost);
             _skillTreeModel.LearnSkill(targetModel);
         }
 
@@ -71,7 +72,7 @@ namespace Assets.Scripts.SkillTree
             {
                 if (skill.canForget && skill.isOpened)
                 {
-                    _player.AddSkillPoints(skill.cost);
+                    _player.AddResource(skill.cost);
                     _skillTreeModel.ForgetSkill(skill);
                 }
             }
@@ -97,13 +98,13 @@ namespace Assets.Scripts.SkillTree
                     return;
                 }
 
-                bool notEnoughSkillPoints = _player.skillPoints < targetModel.cost;
+                bool notEnoughSkillPoints = _player.GetResource(ResourceTypes.SkillPoints) < targetModel.cost.value;
                 if (notEnoughSkillPoints)
                 {
                     return;
                 }
 
-                _player.AddSkillPoints(targetModel.cost);
+                _player.AddResource(targetModel.cost);
                 _skillTreeModel.ForgetSkill(targetModel);
             }
         }
