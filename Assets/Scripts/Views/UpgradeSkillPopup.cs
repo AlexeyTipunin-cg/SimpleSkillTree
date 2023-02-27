@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.Views
 {
-    public class UpgradeSkillPopup : MonoBehaviour
+    public class UpgradeSkillPopup : MonoBehaviour, ISkillPopup<SkillItemViewData>
     {
         public event Action onEarnPointClick;
         public event Action<string> onSkillLearnClick;

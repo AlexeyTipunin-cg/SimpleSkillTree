@@ -8,9 +8,9 @@ namespace Assets.Scripts.Views
 {
     public partial class UpgradeSkillPopupController
     {
-        private UpgradeSkillPopup _skillPopup;
+        private ISkillPopup<SkillItemViewData> _skillPopup;
         private SkillService _skillService;
-        public UpgradeSkillPopupController(SkillService skillService, UpgradeSkillPopup skillPopup)
+        public UpgradeSkillPopupController(SkillService skillService, ISkillPopup<SkillItemViewData> skillPopup)
         {
             _skillPopup = skillPopup;
             _skillService = skillService;
