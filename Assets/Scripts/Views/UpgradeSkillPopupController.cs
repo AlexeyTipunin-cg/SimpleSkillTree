@@ -1,9 +1,6 @@
-﻿using Assets.Scripts.player;
-using Assets.Scripts.Resources;
+﻿using Assets.Scripts.Resources;
 using Assets.Scripts.SkillTree;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Assets.Scripts.Views
 {
