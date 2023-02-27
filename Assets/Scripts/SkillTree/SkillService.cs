@@ -32,12 +32,23 @@ namespace Assets.Scripts.SkillTree
         }
 
         public Player player => _player;
-        public List<SkillModel> skillTreeModels => _skillTreeModel.modelsStorage.Values.ToList();
+        public IReadOnlyDictionary<string, SkillModel> skillTreeModels => _skillTreeModel.modelsStorage;
         public SkillConfig skillConfig => _skillConfig;
 
         public void LearnSkill(string id)
         {
             var targetModel = _skillTreeModel.modelsStorage[id];
+
+            if (targetModel.isOpened)
+            {
+                return;
+            }
+
+            if (!targetModel.canForget)
+            {
+                return;
+            }
+
             bool skillsConnected = _skillTreeModel.AreSkillsConnected(targetModel);
             if (!skillsConnected)
             {
@@ -71,6 +82,11 @@ namespace Assets.Scripts.SkillTree
             if (_skillTreeModel.modelsStorage.TryGetValue(id, out var targetModel))
             {
                 if (!targetModel.isOpened)
+                {
+                    return;
+                }
+
+                if (!targetModel.canForget)
                 {
                     return;
                 }

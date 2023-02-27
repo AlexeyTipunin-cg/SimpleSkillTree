@@ -24,22 +24,33 @@ namespace Assets.Scripts.Views
             _skillPopup.onSkillForgetClick += OnForgetSkillClick;
             _skillPopup.onForgetAllClick += OnForgetAllClick;
 
-            skillPopup.Init(ProcessDataFromModel());
+            skillPopup.Init(ProcessSkillModels());
         }
 
-        private List<SkillItemViewData> ProcessDataFromModel()
+        private List<SkillItemViewData> ProcessSkillModels()
         {
             var models = _skillService.skillTreeModels;
-            var data = models.Select(x => new SkillItemViewData
+            List<SkillItemViewData> viewData = new List<SkillItemViewData>();
+            foreach (var modelPair in models)
+            {
+                var data = ProcessModel(modelPair.Key);
+                viewData.Add(data);
+            }
+
+            return viewData;
+        }
+
+        private SkillItemViewData ProcessModel(string key)
+        {
+            var x = _skillService.skillTreeModels[key];
+            return new SkillItemViewData
             {
                 skillId = x.id,
                 skillName = x.id,
                 activated = x.isOpened,
-                cost= x.cost,
+                cost = x.cost,
                 index = _skillService.skillConfig.skillToIcon[x.id]
-            }).ToList();
-
-            return data;
+            };
         }
 
         public void Dispose()
@@ -61,7 +72,8 @@ namespace Assets.Scripts.Views
 
         private void ForgetSkill(string id)
         {
-            _skillPopup.OnSkillForget(id);
+            var data = ProcessModel(id);
+            _skillPopup.OnSkillForget(data);
         }
 
         private void OnForgetSkillClick(string id)
@@ -71,7 +83,8 @@ namespace Assets.Scripts.Views
 
         private void OnSkillLearn(string id)
         {
-            _skillPopup.OnSkillLearn(id);
+            var data = ProcessModel(id);
+            _skillPopup.OnSkillLearn(data);
         }
 
         private void OnLearnSkillClick(string id)

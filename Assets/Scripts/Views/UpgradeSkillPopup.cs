@@ -49,16 +49,26 @@ namespace Assets.Scripts.Views
             foreach (var data in viewData)
             {
                 var view = _skillItemView[data.index];
+
                 _idsToView.Add(data.skillId, view);
 
+                UpdateView(data);
+            }
+        }
 
-                view.UpdateData(data);
-                view.Unselect();
+        private void UpdateView(SkillItemViewData data)
+        {
+            var view = _idsToView[data.skillId];
 
-                if (data.activated)
-                {
-                    view.Activate();
-                }
+            view.UpdateData(data);
+
+            if (data.activated)
+            {
+                view.Activate();
+            }
+            else
+            {
+                view.Forget();
             }
         }
 
@@ -67,19 +77,14 @@ namespace Assets.Scripts.Views
             _skillPointsText.text = score.ToString();
         }
 
-        public void UpdateSkillCostText(int skillCost)
+        public void OnSkillLearn(SkillItemViewData data)
         {
-            _skillCostText.text = skillCost.ToString();
+            UpdateView(data);
         }
 
-        public void OnSkillLearn(string id)
+        public void OnSkillForget(SkillItemViewData data)
         {
-            _idsToView[id].Activate();
-        }
-
-        public void OnSkillForget(string id)
-        {
-            _idsToView[id].Forget();
+            UpdateView(data);
         }
 
         private void OnEarnPointClick()
