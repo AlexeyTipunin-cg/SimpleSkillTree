@@ -98,12 +98,6 @@ namespace Assets.Scripts.SkillTree
                     return;
                 }
 
-                bool notEnoughSkillPoints = _player.GetResource(ResourceTypes.SkillPoints) < targetModel.cost.value;
-                if (notEnoughSkillPoints)
-                {
-                    return;
-                }
-
                 _player.AddResource(targetModel.cost);
                 _skillTreeModel.ForgetSkill(targetModel);
             }
