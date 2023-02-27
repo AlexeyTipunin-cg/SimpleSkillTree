@@ -23,6 +23,7 @@ namespace Assets.Scripts.SkillTree
 
         public int cost => _cost;
         public string id => _id;
+        public string name => _name;
         public bool isOpened => _isOpened;
         public bool canForget => _canForget;
         public List<string> neighIds => _neighIds;

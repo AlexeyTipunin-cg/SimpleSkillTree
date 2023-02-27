@@ -42,14 +42,14 @@ namespace Assets.Scripts.Views
 
         private SkillItemViewData ProcessModel(string key)
         {
-            var x = _skillService.skillTreeModels[key];
+            var skill = _skillService.skillTreeModels[key];
             return new SkillItemViewData
             {
-                skillId = x.id,
-                skillName = x.id,
-                activated = x.isOpened,
-                cost = x.cost,
-                index = _skillService.skillConfig.skillToIcon[x.id]
+                skillId = skill.id,
+                skillName = skill.name,
+                activated = skill.isOpened,
+                cost = skill.cost,
+                index = _skillService.skillConfig.skillToIcon[skill.id]
             };
         }
 
